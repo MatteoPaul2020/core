@@ -30,6 +30,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
 use OC\Cache\CappedMemoryCache;
 use Sabre\DAV\INode;
+use Sabre\DAV\Xml\Property\Complex;
 
 /**
  * Class FileCustomPropertiesBackend
@@ -186,6 +187,9 @@ class FileCustomPropertiesBackend extends AbstractCustomPropertiesBackend {
 					);
 				}
 			} else {
+				if ($propertyValue instanceof Complex) {
+					$propertyValue = $propertyValue->getXml();
+				}
 				if (!$propertyExists) {
 					$this->connection->executeUpdate($insertStatement,
 						[
